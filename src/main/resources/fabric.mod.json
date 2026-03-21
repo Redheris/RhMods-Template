@@ -7,7 +7,10 @@
   "authors": [
     "Redheris"
   ],
-  "contact": {},
+  "contact": {
+    "homepage": "https://modrinth.com/mod/ Template",
+    "sources": "https://github.com/Redheris/RhMods-Template"
+  },
   "license": "MIT",
   "icon": "assets/templatemod/icon.png",
   "environment": "client",
@@ -22,10 +25,10 @@
   "mixins": [
     "template-client.mixins.json"
   ],
-  "accessWidener" : "aw/${minecraft}.classtweaker",
+  "accessWidener": "aw/${minecraft}.classtweaker",
   "depends": {
     "fabricloader": ">=${fabric_loader}",
     "fabric": "*",
-    "minecraft": "~${minecraft}"
+    "minecraft": "${minecraft}"
   }
 }
