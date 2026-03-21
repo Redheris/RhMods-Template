@@ -1,30 +1,31 @@
 {
   "schemaVersion": 1,
-  "id": "${id}",
+  "id": "templatemod // change me",
   "version": "${version}",
   "name": "${name}",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "Template mod description",
   "authors": [
-    "Me!"
+    "Redheris"
   ],
-  "contact": {
-    "homepage": "https://stonecutter.kikugie.dev/",
-    "sources": "https://codeberg.org/stonecutter/template-fabric"
-  },
-  "license": "CC0-1.0",
-  "icon": "assets/template/icon.png",
-  "environment": "*",
+  "contact": {},
+  "license": "LGPL-3.0",
+  "icon": "assets/templatemod/icon.png",
+  "environment": "client",
   "entrypoints": {
+    "client": [
+      "dev.redheris.templatemod.TemplateModClient"
+    ],
     "main": [
-      "com.example.TemplateMod"
+      "dev.redheris.templatemod.TemplateMod"
     ]
   },
   "mixins": [
-    "template.mixins.json"
+    "template-client.mixins.json"
   ],
-  "accessWidener": "template.accesswidener",
+  "accessWidener" : "aw/${minecraft}.classtweaker",
   "depends": {
-    "fabricloader": ">=0.17",
-    "minecraft": "${minecraft}"
+    "fabricloader": ">=${fabric_loader}",
+    "fabric": "*",
+    "minecraft": "~${minecraft}"
   }
 }
