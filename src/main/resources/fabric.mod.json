@@ -8,7 +8,7 @@
     "Redheris"
   ],
   "contact": {},
-  "license": "LGPL-3.0",
+  "license": "MIT",
   "icon": "assets/templatemod/icon.png",
   "environment": "client",
   "entrypoints": {
