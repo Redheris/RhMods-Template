@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "templatemod // change me",
+  "id": "templatemod",
   "version": "${version}",
   "name": "${name}",
   "description": "Template mod description",
@@ -28,7 +28,7 @@
   "accessWidener": "aw/${minecraft}.classtweaker",
   "depends": {
     "fabricloader": ">=${fabric_loader}",
-    "fabric": "*",
+    "fabric-api": "*",
     "minecraft": "${minecraft}"
   }
 }

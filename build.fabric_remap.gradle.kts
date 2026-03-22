@@ -53,7 +53,7 @@ dependencies {
     mappings(loom.layered {
         officialMojangMappings()
         parchment("org.parchmentmc.data:parchment-${project.property("parchment")}@zip")
-        if (sc.current.parsed < "1.21.11")
+        if (project.hasProperty("mojbackwards"))
             mappings("dev.lambdaurora:yalmm-mojbackward:${project.property("mojbackward")}")
     })
     modImplementation("net.fabricmc:fabric-loader:${property("mod.fabric_loader")}")
@@ -72,7 +72,7 @@ loom {
 
     fabricModJsonPath = rootProject.file("src/main/resources/fabric.mod.json") // Useful for interface injection
 // For mods with access wideners
-//    accessWidenerPath = rootProject.file("src/main/resources/aw/${sc.current.version}.classtweaker")
+    accessWidenerPath = rootProject.file("src/main/resources/aw/${sc.current.version}.classtweaker")
 
     decompilerOptions.named("vineflower") {
         options.put("mark-corresponding-synthetics", "1") // Adds names to lambdas - useful for mixins
@@ -93,18 +93,19 @@ java {
 
 tasks {
     processResources {
+        val mcDep = (project.findProperty("mc_dep_fabric") ?: project.property("mc_dep")) as String
         inputs.property("id", project.property("mod.id"))
         inputs.property("name", project.property("mod.name"))
         inputs.property("version", project.property("mod.version"))
         inputs.property("fabric_loader", project.property("mod.fabric_loader"))
-        inputs.property("minecraft", project.property("mc_dep"))
+        inputs.property("minecraft", mcDep)
 
         val props = mapOf(
             "id" to project.property("mod.id"),
             "name" to project.property("mod.name"),
             "version" to project.property("mod.version"),
             "fabric_loader" to project.property("mod.fabric_loader"),
-            "minecraft" to project.property("mc_dep")
+            "minecraft" to mcDep
         )
 
         filesMatching("fabric.mod.json") { expand(props) }

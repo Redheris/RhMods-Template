@@ -34,11 +34,11 @@ mc_targets = "1.21.11"
 fabric_api = "0.141.3+1.21.11"
 # Mappings
 parchment = "1.21.11:2025.12.20"
-mojbackward = "none"
 
 ["26.1"]
 mc_dep = "26.1-rc-2"
+mc_dep_fabric ="26.1-rc.2"
 release_title = "26.1"
 mc_targets = "26.1"
 # Dependencies
-fabric_api = "0.143.15+26.1"
+fabric_api = "0.144.0+26.1"
