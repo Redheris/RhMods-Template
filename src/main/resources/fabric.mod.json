@@ -23,7 +23,7 @@
     ]
   },
   "mixins": [
-    "template-client.mixins.json"
+    "template.mixins.json"
   ],
   "accessWidener": "${id}.classtweaker",
   "depends": {

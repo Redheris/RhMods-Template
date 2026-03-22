@@ -93,6 +93,7 @@ java {
 }
 
 tasks {
+    val mixinJava = "JAVA_${requiredJava.majorVersion}"
     processResources {
         // Excluding unnecessary files from adding to the jar
         exclude("aw/**")
@@ -129,8 +130,9 @@ tasks {
         )
 
         filesMatching("fabric.mod.json") { expand(props) }
-
-        val mixinJava = "JAVA_${requiredJava.majorVersion}"
+        filesMatching("*.mixins.json") { expand("java" to mixinJava) }
+    }
+    named<ProcessResources>("processClientResources") {
         filesMatching("*.mixins.json") { expand("java" to mixinJava) }
     }
 
