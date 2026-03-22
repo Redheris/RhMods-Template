@@ -1,4 +1,4 @@
-mod.id = "templateid"
+mod.id = "templatemod"
 mod.name = "Template Mod"
 mod.group = "com.example"
 mod.version = "0.0.1"

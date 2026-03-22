@@ -56,7 +56,7 @@ loom {
 
     fabricModJsonPath = rootProject.file("src/main/resources/fabric.mod.json") // Useful for interface injection
 // For mods with access wideners
-//    accessWidenerPath = rootProject.file("src/main/resources/aw/${sc.current.version}.classtweaker")
+    accessWidenerPath = rootProject.file("src/main/resources/aw/${sc.current.version}.classtweaker")
 
     decompilerOptions.named("vineflower") {
         options.put("mark-corresponding-synthetics", "1") // Adds names to lambdas - useful for mixins
@@ -77,6 +77,16 @@ java {
 
 tasks {
     processResources {
+        // Excluding unnecessary files from adding to the jar
+        exclude("aw/**")
+        val awFile = loom.accessWidenerPath.asFile.orNull
+        if (awFile != null) {
+            from(awFile.parentFile){
+                include(awFile.name)
+                rename(awFile.name, "${project.property("mod.id")}.classtweaker")
+            }
+        }
+
         val mcDep = (project.findProperty("mc_dep_fabric") ?: project.property("mc_dep")) as String
         inputs.property("id", project.property("mod.id"))
         inputs.property("name", project.property("mod.name"))

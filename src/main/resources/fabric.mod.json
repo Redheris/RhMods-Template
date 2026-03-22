@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "templatemod",
+  "id": "${id}",
   "version": "${version}",
   "name": "${name}",
   "description": "Template mod description",
@@ -25,7 +25,7 @@
   "mixins": [
     "template-client.mixins.json"
   ],
-  "accessWidener": "aw/${minecraft}.classtweaker",
+  "accessWidener": "${id}.classtweaker",
   "depends": {
     "fabricloader": ">=${fabric_loader}",
     "fabric-api": "*",
