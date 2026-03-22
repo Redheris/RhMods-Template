@@ -1,4 +1,5 @@
 @file:Suppress("UnstableApiUsage")
+
 import me.modmuss50.mpp.ReleaseType
 
 plugins {
@@ -97,10 +98,19 @@ tasks {
         exclude("aw/**")
         val awFile = loom.accessWidenerPath.asFile.orNull
         if (awFile != null) {
-            from(awFile.parentFile){
+            from(awFile.parentFile) {
                 include(awFile.name)
                 rename(awFile.name, "${project.property("mod.id")}.classtweaker")
             }
+        }
+
+        // Add LICENSE_Mod-name file into the jar
+        from(rootProject.file("LICENSE")) {
+            rename(
+                "LICENSE", "LICENSE_${
+                    project.property("mod.name").toString().replace(" ", "-")
+                }"
+            )
         }
 
         val mcDep = (project.findProperty("mc_dep_fabric") ?: project.property("mc_dep")) as String
