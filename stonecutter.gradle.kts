@@ -17,17 +17,17 @@ val versionType: ReleaseType = when {
 }
 
 publishMods {
-    displayName = "${property("mod.name")} ${property("mod.version")}}"
+    displayName = "${property("mod.name")} ${property("mod.version")}"
     changelog = rootProject.file("CHANGELOG.md").readText()
     version = property("mod.version") as String
     type = versionType
-    dryRun = true
+    dryRun = property("publish.dry_run") == "true"
 
     github {
         accessToken = env.GITHUB_TOKEN.value
         repository = property("publish.github_repo") as String
         commitish = "main"
-        tagName = "release/${version}"
+        tagName = version
 
         allowEmptyFiles = true
     }
