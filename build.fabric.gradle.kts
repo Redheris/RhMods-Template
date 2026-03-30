@@ -1,7 +1,8 @@
+@file:Suppress("UnstableApiUsage")
 import me.modmuss50.mpp.ReleaseType
 
 plugins {
-    id("net.fabricmc.fabric-loom")
+    id("fabric-loom-compat")
     id("me.modmuss50.mod-publish-plugin")
     // `maven-publish`
 }
@@ -35,13 +36,30 @@ repositories {
     }
     strictMaven("https://www.cursemaven.com", "CurseForge", "curse.maven")
     strictMaven("https://api.modrinth.com/maven", "Modrinth", "maven.modrinth")
+    if (!fabric.isNew) {
+        maven("https://maven.parchmentmc.org") {
+            name = "ParchmentMC"
+        }
+        maven("https://maven.gegy.dev/releases/") {
+            name = "Gegy"
+        }
+    }
 }
 
 dependencies {
     minecraft("com.mojang:minecraft:${sc.current.version}")
 
-    implementation("net.fabricmc:fabric-loader:${property("mod.fabric_loader")}")
-    implementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api")}")
+    if (!fabric.isNew) {
+        mappings(loom.layered {
+            officialMojangMappings()
+            parchment("org.parchmentmc.data:parchment-${property("parchment")}@zip")
+            if (hasProperty("mojbackward"))
+                mappings("dev.lambdaurora:yalmm-mojbackward:${property("mojbackward")}")
+        })
+    }
+
+    modImplementation("net.fabricmc:fabric-loader:${property("mod.fabric_loader")}")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api")}")
 }
 
 loom {
@@ -122,7 +140,7 @@ tasks {
     // Builds the version into a shared folder in `build/libs/${mod version}/`
     register<Copy>("buildAndCollect") {
         group = "build"
-        from(jar.map { it.archiveFile })
+        from(fabric.modJar.map { it.archiveFile })
         into(rootProject.layout.buildDirectory.file("libs/${project.property("mod.version")}"))
         dependsOn("build")
     }
@@ -130,9 +148,9 @@ tasks {
 
 // Publishes builds to Modrinth, Curseforge and GitHub with changelog from the CHANGELOG.md file
 publishMods {
-    file = tasks.jar.map { it.archiveFile.get() }
+    file = fabric.modJar.map { it.archiveFile.get() }
 // Adds sources jar
-//    additionalFiles.from(tasks.named<org.gradle.jvm.tasks.Jar>("sourcesJar").map { it.archiveFile.get() })
+//    additionalFiles.from(fabric.modSourcesJar.map { it.archiveFile.get() })
     displayName = "${property("mod.name")} ${property("mod.version")} for ${property("release_title")}"
     version = property("mod.version") as String
     changelog = rootProject.file("CHANGELOG.md").readText()
@@ -152,9 +170,7 @@ publishMods {
             accessToken = providers.environmentVariable("MODRINTH_TOKEN")
             accessToken = env.MODRINTH_TOKEN.orElse("")
             minecraftVersions.addAll(property("mc_targets").toString().split(' '))
-            requires {
-                slug = "fabric-api"
-            }
+            requires("fabric-api")
             announcementTitle = "Modrinth"
         }
     }
