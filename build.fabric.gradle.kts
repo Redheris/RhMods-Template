@@ -1,4 +1,5 @@
 @file:Suppress("UnstableApiUsage")
+
 import me.modmuss50.mpp.ReleaseType
 
 plugins {
@@ -170,7 +171,9 @@ publishMods {
             accessToken = providers.environmentVariable("MODRINTH_TOKEN")
             accessToken = env.MODRINTH_TOKEN.orElse("")
             minecraftVersions.addAll(property("mc_targets").toString().split(' '))
+
             requires("fabric-api")
+
             announcementTitle = "Modrinth"
         }
     }
@@ -182,9 +185,9 @@ publishMods {
             projectSlug = property("publish.curseforge_slug") as String
             accessToken = env.CURSEFORGE_TOKEN.orElse("")
             minecraftVersions.addAll(property("mc_targets").toString().split(' '))
-            requires {
-                slug = "fabric-api"
-            }
+
+            requires("fabric-api")
+
             announcementTitle = "CurseForge"
         }
     }
