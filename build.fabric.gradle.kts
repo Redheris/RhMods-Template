@@ -3,10 +3,13 @@
 import me.modmuss50.mpp.ReleaseType
 
 plugins {
-    id("fabric-loom-compat")
+    // id("fabric-loom-compat") // buildSrc plugin just in case
+    id("dev.kikugie.loom-back-compat")
     id("me.modmuss50.mod-publish-plugin")
     // `maven-publish`
 }
+
+val isObfuscated = !loomx.isUnobfuscated
 
 version = "${property("mod.version")}+mc${sc.current.version}"
 base.archivesName = property("mod.id") as String
@@ -37,7 +40,7 @@ repositories {
     }
     strictMaven("https://www.cursemaven.com", "CurseForge", "curse.maven")
     strictMaven("https://api.modrinth.com/maven", "Modrinth", "maven.modrinth")
-    if (!fabric.isNew) {
+    if (isObfuscated) {
         maven("https://maven.parchmentmc.org") {
             name = "ParchmentMC"
         }
@@ -50,7 +53,7 @@ repositories {
 dependencies {
     minecraft("com.mojang:minecraft:${sc.current.version}")
 
-    if (!fabric.isNew) {
+    if (isObfuscated) {
         mappings(loom.layered {
             officialMojangMappings()
             parchment("org.parchmentmc.data:parchment-${property("parchment")}@zip")
@@ -141,7 +144,7 @@ tasks {
     // Builds the version into a shared folder in `build/libs/${mod version}/`
     register<Copy>("buildAndCollect") {
         group = "build"
-        from(fabric.modJar.map { it.archiveFile })
+        from(loomx.modJar.map { it.archiveFile })
         into(rootProject.layout.buildDirectory.file("libs/${project.property("mod.version")}"))
         dependsOn("build")
     }
@@ -149,9 +152,9 @@ tasks {
 
 // Publishes builds to Modrinth, Curseforge and GitHub with changelog from the CHANGELOG.md file
 publishMods {
-    file = fabric.modJar.map { it.archiveFile.get() }
+    file = loomx.modJar.map { it.archiveFile.get() }
 // Adds sources jar
-//    additionalFiles.from(fabric.modSourcesJar.map { it.archiveFile.get() })
+//    additionalFiles.from(loomx.modSourcesJar.map { it.archiveFile.get() })
     displayName = "${property("mod.name")} ${property("mod.version")} for ${property("release_title")}"
     version = property("mod.version") as String
     changelog = rootProject.file("CHANGELOG.md").readText()
