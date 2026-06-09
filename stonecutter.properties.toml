@@ -1,9 +1,10 @@
 mod.id = "templatemod"
 mod.name = "Template Mod"
-mod.group = "com.example"
+mod.group = "dev.redheris.example"
 mod.version = "0.0.1"
-mod.fabric_loader = "0.18.4"
 mod.version_type = "ALPHA"
+mod.fabric_loader = "0.18.4"
+loomx.loom_version = "1.16-SNAPSHOT"
 
 publish.modrinth = "# Modrinth mod slug"
 publish.curseforge_id = "# Curseforge numeric mod ID"
@@ -41,4 +42,4 @@ mc_dep_fabric ="~26.1"
 release_title = "26.1"
 mc_targets = "26.1"
 # Dependencies
-fabric_api = "0.144.3+26.1"
+fabric_api = "0.145.1+26.1"
