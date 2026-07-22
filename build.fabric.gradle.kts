@@ -204,6 +204,8 @@ publishMods {
             projectSlug = property("publish.curseforge_slug") as String
             accessToken = env.CURSEFORGE_TOKEN.orElse("")
             minecraftVersions.addAll(property("mc_targets").toString().split(' '))
+            client = true
+//            server = true
 
             requires("fabric-api")
 //            requires("fabric-api", "yacl")
