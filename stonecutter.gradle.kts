@@ -6,7 +6,7 @@ plugins {
     id("co.uzzu.dotenv.gradle") version "4.0.0"
 }
 
-stonecutter active "1.21.8"
+stonecutter active "1.21.11"
 
 val versionTypeRaw = property("mod.version_type") as String
 val versionType: ReleaseType = when {
@@ -61,6 +61,13 @@ stonecutter parameters {
             replace("net.minecraft.client.gui.render.state.", "net.minecraft.client.renderer.state.gui.")
             replace(".command.v2.ClientCommandManager", ".command.v2.ClientCommands")
             replace("SpecialGuiElementRegistry", "PictureInPictureRendererRegistry")
+            replace("Screens.getButtons(", "Screens.getWidgets(")
+        }
+
+        string(current.parsed >= "26.2") {
+            replace("Minecraft.getInstance().screen", "Minecraft.getInstance().gui.screen()")
+            replace("Minecraft.getInstance().setScreen(", "Minecraft.getInstance().gui.setScreen(")
+            replace("client.setScreen(", "client.gui.setScreen(")
         }
 
         string(current.parsed >= "1.21.10", "widget_events") {
@@ -85,8 +92,8 @@ stonecutter parameters {
                 "updateScrolling(@NotNull MouseButtonEvent mouseEvent)"
             )
             replace(
-                "(double mouseX, double mouseY, int button)",
-                "(@NotNull MouseButtonEvent mouseEvent, boolean isDoubleClick)"
+                "double mouseX, double mouseY, int button)",
+                "@NotNull MouseButtonEvent mouseEvent, boolean isDoubleClick)"
             )
             replace("mouseClicked(mouseX, mouseY, button)", "mouseClicked(mouseEvent, isDoubleClick)")
             replace("mouseReleased(mouseX, mouseY, button)", "mouseReleased(mouseEvent)")
@@ -99,6 +106,13 @@ stonecutter parameters {
             replace("(keyCode, scanCode, modifiers)", "(keyEvent)")
             replace("keyCode == 257 || keyCode == 335", "keyEvent.isConfirmation()")
             replace("keyCode", "keyEvent.key()")
+        }
+
+        string(current.parsed >= "26.1", "render_button_contents") {
+            replace("renderContents", "extractContents")
+        }
+        string(current.parsed >= "1.21.10", "render_button_contents") {
+            replace("renderWidget", "renderContents")
         }
 
         // gui_rendering

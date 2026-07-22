@@ -51,6 +51,13 @@ repositories {
             name = "Gegy"
         }
     }
+
+//    maven("https://maven.isxander.dev/releases") {
+//        name = "Xander Maven"
+//    }
+//    maven("https://maven.gnomecraft.net/releases") {
+//        name = "GniftyGnome"
+//    }
 }
 
 dependencies {
@@ -67,6 +74,9 @@ dependencies {
 
     modImplementation("net.fabricmc:fabric-loader:${property("mod.fabric_loader")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api")}")
+
+//    modImplementation("dev.isxander:yet-another-config-lib:${property("yacl")}")
+//    modApi("com.terraformersmc:modmenu:${property("modmenu")}")
 }
 
 loom {
@@ -88,9 +98,10 @@ loom {
     }
 
     runConfigs.all {
-        ideConfigGenerated(true)
-        vmArgs("-Dmixin.debug.export=true") // Exports transformed classes for debugging
-        runDir = "../../run" // Shares the run directory between versions
+        preferGradleTask = true
+        generateRunConfig = true
+        runDirectory = rootProject.file("run") // Shares the run directory between versions
+        jvmArguments.add("-Dmixin.debug.export=true") // Exports transformed classes for debugging
     }
 }
 
@@ -179,6 +190,8 @@ publishMods {
             minecraftVersions.addAll(property("mc_targets").toString().split(' '))
 
             requires("fabric-api")
+//            requires("fabric-api", "yacl")
+//            optional("modmenu")
 
             announcementTitle = "Modrinth"
         }
@@ -193,6 +206,8 @@ publishMods {
             minecraftVersions.addAll(property("mc_targets").toString().split(' '))
 
             requires("fabric-api")
+//            requires("fabric-api", "yacl")
+//            optional("modmenu")
 
             announcementTitle = "CurseForge"
         }
