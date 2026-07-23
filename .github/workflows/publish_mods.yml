@@ -2,8 +2,10 @@ name: publish_mods
 on: [workflow_dispatch]
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
