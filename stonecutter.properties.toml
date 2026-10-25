@@ -1,10 +1,10 @@
 mod.id = "templatemod"
 mod.name = "Template Mod"
-mod.group = "dev.redheris.example"
+mod.group = "dev.redheris"
 mod.version = "0.0.1"
 mod.version_type = "ALPHA"
 mod.fabric_loader = "0.19.3"
-loomx.loom_version = "1.17-SNAPSHOT"
+loomx.loom_version = "1.18-SNAPSHOT"
 
 publish.modrinth = "# Modrinth mod slug"
 publish.curseforge_id = "# Curseforge numeric mod ID"

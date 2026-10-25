@@ -256,9 +256,9 @@ publishing {
 
     publications {
         create<MavenPublication>("mavenJava") {
-            groupId = "${property("mod.group")}.${property("mod.id")}"
+            groupId = property("mod.group") as String
             artifactId = property("mod.id") as String
-            version = project.version
+            version = project.version as String
 
             from(components["java"])
         }
